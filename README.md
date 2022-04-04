@@ -4,7 +4,7 @@
 
 [Principal](https://github.com/pvreboucas/java-excecoes/tree/main)
 
-[Aula Anterior](https://github.com/pvreboucas/java-excecoes/tree/aula-2)
+[Aula Anterior](https://github.com/pvreboucas/java-excecoes/tree/aula-1)
 
 
 # Tratamento de Exceções
