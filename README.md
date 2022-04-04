@@ -4,166 +4,152 @@
 
 [Principal](https://github.com/pvreboucas/java-excecoes/tree/main)
 
-[Aula Anterior](https://github.com/pvreboucas/java-excecoes/tree/aula-4)
+[Aula Anterior](https://github.com/pvreboucas/java-excecoes/tree/aula-5)
 
 
-# Aplicando Exceções
+# Finally e Try with Resources
 
-## Catch Genérico
+Vamos fazer alguns testes agora.
 
-No projeto java-pilha, abra a classe Conta (aquela classe de teste). No método deposita(), lance a exceção que criamos anteriormente.
-
-1) O corpo ficará desse jeito:
+1) Comece criando a classe Conexao:
 
 ```java
-void deposita() throws MinhaExcecao {
-    //codigo omitido
+public class Conexao{
+
+    public Conexao() {
+        System.out.println("Abrindo conexao");
+    }
+
+    public void leDados() {
+        System.out.println("Recebendo dados");
+//        throw new IllegalStateException();
+    }
+
+    public void fecha() {
+        System.out.println("Fechando conexao");
+    }
 }
 ```
 
-Lembrando que a classe MinhaExcecao é checked.
-
-2) Agora, para podermos testar nossa exceção, vamos criar a classe TestaContaComExcecaoChecked. Dentro dela, faremos uma chamada ao método deposita. Ao chamar o método, somos obrigados a tratar a exceção:
+2) Agora, para testarmos nossa conexão, precisaremos criar outra classe, a TesteConexao. Não se esqueça do método main:
 
 ```java
-public class TestaContaComExcecaoChecked {
+public class TesteConexao {
 
     public static void main(String[] args) {
 
-        Conta c = new Conta();
-        try {
-            c.deposita();
-        } catch(MinhaExcecao ex) {
-            System.out.println("tratamento ....");
+    }
+}
+```
+
+3) Dentro do método main, de nossa classe recém-criada, colocaremos um bloco try e catch para fazermos uso da nossa conexão:
+
+```java
+try{
+    Conexao con = new Conexao();
+    con.leDados();
+    con.fecha();
+} catch(IllegalStateException ex){
+    System.out.println("Deu erro na conexão");
+}
+```
+
+Não esqueça de remover o comentário da linha respectiva dentro da classe Conexao.
+
+4) Queremos fechar nossa conexão sempre, mesmo em caso de erros, então precisamos garantir que o método con.fecha() sempre seja chamado. Para isso, temos o bloco finally. Faça o seguinte:
+
+```java
+Conexao con = null;
+try{
+    con = new Conexao();
+    con.leDados();
+    con.fecha();
+} catch(IllegalStateException ex){
+    System.out.println("Deu erro na conexão");
+} finally {
+    con.fecha();
+}
+```
+
+5) Ainda podemos melhorar o nosso código. Para isso, faremos a declaração da conexão dentro dos parênteses do try, aplicando o seguinte:
+
+```java
+try(Conexao conexao = new Conexao() ){
+
+}
+```
+
+6) Por conta da declaração acima, precisamos fazer com que nossa classe Conexao implemente a interface AutoCloseable e o método close(). Então, deixaremos do seguinte modo:
+
+```java
+public class Conexao implements AutoCloseable{
+
+    public Conexao() {
+        System.out.println("Abrindo conexao");
+    }
+
+    public void leDados() {
+        System.out.println("Recebendo dados");
+            throw new IllegalStateException();
+    }
+
+    @Override
+    public void close() {
+        System.out.println("Fechando conexao");
+    }
+}
+```
+
+7) Agora, faremos a chamada do método leDados(), dentro do nosso novo try, comentando o código antigo.
+
+```java
+try(Conexao conexao = new Conexao() ){
+    conexao.leDados();
+}
+```
+
+8) Ainda precisamos fazer o nosso novo catch também, que ficará do seguinte modo:
+
+```java
+try(Conexao conexao = new Conexao() ){
+    conexao.leDados();
+} catch(IllegalStateException ex){
+    System.out.println("Deu erro na conexão");
+}
+```
+
+## Exceções Padrão
+
+No vídeo, usamos a exceção IllegalStateException, que faz parte da biblioteca do Java e indica que um objeto possui um estado inválido. Você já deve ter visto outras exceções famosas, como a NullPointerException. Ambos fazem parte das exceções padrões do mundo Java que o desenvolvedor precisa conhecer.
+
+Existe outra exceção padrão importante que poderíamos ter usado no nosso projeto. Para contextualizar, faz sentido criar uma conta com uma agência que possui valor negativo? Por exemplo:
+
+```java
+Conta c = new ContaCorrente(-111, 222); //faz sentido? 
+```
+
+Não faz sentido nenhum. Por isso, poderíamos verificar os valores no construtor da classe. Caso o valor esteja errado, lançamos uma exceção. Qual? A IllegalArgumentException, que faz parte das exceções do biblioteca do Java:
+
+```java
+public abstract class Conta {
+
+    //atributos omitidos
+
+    public Conta(int agencia, int numero){
+
+        if(agencia < 1) {
+            throw new IllegalArgumentException("Agencia inválida");
         }
 
-    }
-}
-```
-
-3) Agora, abra a classe Fluxo. Similarmente, dentro do catch dessa classe, experimente o "catch genérico" usando apenas Exception:
-
-```java
-try {
-    metodo1();
-} catch(Exception ex) { //catch genérico, capturando qq exceção
-    String msg = ex.getMessage();
-    System.out.println("Exception " + msg);
-    ex.printStackTrace();
-}
-```
-
-4) Se você encontrar um erro de compilação na classe FluxoComError, pode ser por conta da exceção MinhaExcecao que é checked. Verifique se ainda está tratando essa exceção, dentro do catch, e apague essa parte. Vamos deixar do jeito antigo (sem MinhaExcecao):
-
-```java
-//na classe FluxoComError
-try {
-    metodo1();
-} catch(ArithmeticException | NullPointerException ex) {
-    String msg = ex.getMessage();
-    System.out.println("Exception " + msg);
-    ex.printStackTrace();
-}
-```
-
-## Criando a Exceção
-
-No projeto bytebank-herdado-conta, vamos refatorar o código da classe Conta e criar uma exceção.
-
-1) Primeiramente, crie a nossa exceção SaldoInsuficienteException:
-
-```java
-public class SaldoInsuficienteException extends Exception{ //checked
-
-    public SaldoInsuficienteException(String msg) {
-        super(msg);
-    }
-}
-```
-
-2) Agora, abra a classe Conta. Procure o método saca() e troque o tipo do retorno de boolean para void. Remova os returns e lance a exceção nova. O método saca() terá a seguinte cara:
-
-```java
-public void saca(double valor) throws SaldoInsuficienteException{
-
-        if(this.saldo < valor) {
-            throw new SaldoInsuficienteException("Saldo: " + this.saldo + ", Valor: " + valor);
-        } 
-
-        this.saldo -= valor;       
-}
-```
-
-Repare que invertemos a lógica para podermos lançar a exceção antes.
-
-3) Veja que agora nosso método transfere() também precisa ser alterado, já que agora ele não terá mais um retorno do tipo boolean e que o método saca() não retorna void, além da exceção na assinatura do método.
-
-Altere o método para ficar como:
-
-```java
-public void transfere(double valor, Conta destino) throws SaldoInsuficienteException{
-    this.saca(valor);
-    destino.deposita(valor);
-}
-```
-
-4) Por conta disso, precisaremos alterar nosso método saca() de nossa classe ContaCorrente:
-
-```java
-@Override
-public void saca(double valor) throws SaldoInsuficienteException {
-    double valorASacar = valor + 0.2;
-    super.saca(valorASacar);
-}
-```
-
-5) Agora, altere a classe TesteContas para funcionar com nossas exceções. Para tal, adicione um "throws" na assinatura do método main:
-
-```java
-public class TesteContas {
-
-    public static void main(String[] args) throws SaldoInsuficienteException{
-
-        ContaCorrente cc = new ContaCorrente(111, 111);
-        cc.deposita(100.0);
-
-        ContaPoupanca cp = new ContaPoupanca(222, 222);
-        cp.deposita(200.0);
-
-        cc.transfere(110.0, cp);
-
-        System.out.println("CC: " + cc.getSaldo());
-        System.out.println("CP: " + cp.getSaldo());
-    }
-}
-```
-
-Depois, tente transferir um valor inválido e execute o código:
-
-6) Por fim, crie uma classe TesteSaca para testar o método saca. Use um try-catch para capturar a exceção:
-
-```java
-public class TesteSaca {
-
-    public static void main(String[] args) {
-        Conta conta = new ContaCorrente(123, 321);
-
-        conta.deposita(200.0);
-
-        try {
-            conta.saca(210.0);
-        } catch(SaldoInsuficienteException ex) {
-            System.out.println("Exception: " + ex.getMessage());
-            ex.printStackTrace();
+        if(numero < 1) {
+            throw new IllegalArgumentException("Numero da conta inválido");
         }
 
-        System.out.println(conta.getSaldo());
+        //resto do construtor foi omitido
     }
-}
 ```
 
-Execute a classe TesteSaca!
-
+A IllegalArgumentException e IllegalStateException são duas exceções importantes, que o desenvolvedor Java deve usar. Em geral, quando faz sentido, use uma exceção padrão em vez de criar uma própria.
 
 ## Nomenclatura
 
@@ -182,10 +168,12 @@ De qualquer forma, saiba que encontrar o nome perfeito para as suas classes e m�
 
 # O que aprendemos?
 
-* como criar um bloco catch genérico usando a classe Exception;
+* que existe um bloco finally, útil para o fechamento de recursos (como conexão); 
 
-* como criar uma exceção nova SaldoInsuficienteException;
+* quando há um bloco finally o bloco catch é opcional;
 
-* como transformar a exceção em checked ou unchecked.
+* que o bloco finally é sempre executado, sem ou com exceção;
 
-[Próxima Aula](https://github.com/pvreboucas/java-excecoes/tree/aula-6)
+* como usar o try-with-resources.
+
+[Próximo Curso](https://github.com/pvreboucas/java-lang-object-string)
