@@ -7,104 +7,51 @@
 [Aula Anterior](https://github.com/pvreboucas/java-excecoes/tree/aula-2)
 
 
-# Tratamento de Exceções
+# Lançando uma Exceção
 
-Vamos forçar agora uma exceção em nossa classe Fluxo do projeto java-pilha.
+Vamos lançar nossa primeira exceção! Para isso, siga os passos abaixo:
 
-1) Dentro do for do metodo2(), faça o seguinte:
+1) No projeto java-pilha, faça uma cópia da classe Fluxo, renomeando-a para FluxoComTratamento.
+
+2) Na classe FluxoComTratamento, no metodo2, apague por completo o laço for.
+
+3) Instancie uma ArithmeticException:
 
 ```java
-for(int i = 1; i <= 5; i++) {
-    System.out.println(i);
-    int a = i / 0;
+ArithmeticException exception = new ArithmeticException();
+```
+
+4) Agora, lance a exceção:
+
+```java
+private static void metodo2() {
+    System.out.println("Ini do metodo2");
+    ArithmeticException exception = new ArithmeticException();
+    throw exception;
 }
 ```
 
-Isso deverá retornar uma ArithmeticException!
-
-2) Para evitar que a exceção caia na nossa pilha, vamos utilizar o bloco try e catch:
+5) Não é necessário guardar a exceção em uma referência, você pode lançá-la diretamente em uma linha só:
 
 ```java
-try{
-    int a = i / 0;
-} catch(ArithmeticException ex) {
-    System.out.println("ArithmeticException");
+private static void metodo2() {
+    System.out.println("Ini do metodo2");
+    throw new ArithmeticException();
 }
 ```
 
-3) Porém, podemos fazer a utilização do try e catch durante a chamada do metodo2(), dentro do metodo1(), ficando do seguinte modo:
+6) E você também pode enviar uma mensagem por parâmetro para o construtor da exceção:
 
 ```java
-try{
-    metodo2();
-} catch(ArithmeticException ex) {
-    System.out.println("ArithmeticException");
+private static void metodo2() {
+    System.out.println("Ini do metodo2");
+    throw new ArithmeticException("Deu erro");
 }
 ```
-
-4) Podemos subir mais uma vez o nosso try e catch para o nosso método main, no momento de chamada do metodo1().
- Além disso, podemos definir algumas coisas de nossa exceção, como pegar a mensagem:
-
-```java
-try{
-    metodo1();
-} catch(ArithmeticException ex) {
-    String msg = ex.getMessage();
-    System.out.println("ArithmeticException " + msg);
-}
-```
-
-5) Outra coisa que podemos fazer é pegar o rastro da nossa exceção:
-
-```java
-try{
-    metodo1();
-} catch(ArithmeticException ex) {
-    String msg = ex.getMessage();
-    System.out.println("ArithmeticException " + msg);
-    ex.printStackTrace();
-}
-```
-
-6) Agora, vamos fazer outro teste. Para isso, crie a classe Conta do seguinte modo:
-
-```java
-public class Conta {
-
-    void deposita() {}
-
-}
-```
-
-7) E, dentro do for do metodo2(), faremos o seguinte teste:
-
-```java
-for(int i = 1; i <= 5; i++) {
-    System.out.println(i);
-    Conta c = null;
-    c.deposita();
-}
-```
-
-8) Mas a exceção causada é uma NullPointerException, para pegarmos essa exceção, precisamos colocá-la dentro do catch no método main:
-
-```java
-try {
-    metodo1();
-} catch(ArithmeticException | NullPointerException ex) {
-    String msg = ex.getMessage();
-    System.out.println("Exception " + msg);
-    ex.printStackTrace();
-}
-```
-
 
 # O que aprendemos?
 
-* O que são exceções, para que servem e porquê utilizá-las.
-* Como analisar o rastro de exceções, ou stacktrace.
-* Tratar exceções com os blocos try-catch.
-* Manipular uma exceção lançada dentro do bloco catch.
-* Tratar múltiplas exceções com mais de um bloco catch ou usando Multi-Catch utilizando o pipe (|).
+* Como lançar exceções.
+* Como atribuir uma mensagem à exceção.
 
-[Próxima Aula](https://github.com/pvreboucas/java-excecoes/tree/aula-3)
+[Próxima Aula](https://github.com/pvreboucas/java-excecoes/tree/aula-4)
