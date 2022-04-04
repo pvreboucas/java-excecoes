@@ -4,126 +4,188 @@
 
 [Principal](https://github.com/pvreboucas/java-excecoes/tree/main)
 
-[Aula Anterior](https://github.com/pvreboucas/java-excecoes/tree/aula-3)
+[Aula Anterior](https://github.com/pvreboucas/java-excecoes/tree/aula-4)
 
 
-# Checked e Unchecked
+# Aplicando Exceções
 
-1) Primeiro, vamos criar a classe MinhaExcecao que herda de RuntimeException:
+## Catch Genérico
+
+No projeto java-pilha, abra a classe Conta (aquela classe de teste). No método deposita(), lance a exceção que criamos anteriormente.
+
+1) O corpo ficará desse jeito:
 
 ```java
-public class MinhaExcecao extends RuntimeException {
+void deposita() throws MinhaExcecao {
+    //codigo omitido
 }
 ```
 
-2) Na classe MinhaExcecao, vamos criar um construtor que recebe uma mensagem do tipo string e passaremos ela para o construtor da classe mãe RuntimeException:
+Lembrando que a classe MinhaExcecao é checked.
+
+2) Agora, para podermos testar nossa exceção, vamos criar a classe TestaContaComExcecaoChecked. Dentro dela, faremos uma chamada ao método deposita. Ao chamar o método, somos obrigados a tratar a exceção:
 
 ```java
-public class MinhaExcecao extends RuntimeException {
-    public MinhaExcecao(String msg) {
+public class TestaContaComExcecaoChecked {
+
+    public static void main(String[] args) {
+
+        Conta c = new Conta();
+        try {
+            c.deposita();
+        } catch(MinhaExcecao ex) {
+            System.out.println("tratamento ....");
+        }
+
+    }
+}
+```
+
+3) Agora, abra a classe Fluxo. Similarmente, dentro do catch dessa classe, experimente o "catch genérico" usando apenas Exception:
+
+```java
+try {
+    metodo1();
+} catch(Exception ex) { //catch genérico, capturando qq exceção
+    String msg = ex.getMessage();
+    System.out.println("Exception " + msg);
+    ex.printStackTrace();
+}
+```
+
+4) Se você encontrar um erro de compilação na classe FluxoComError, pode ser por conta da exceção MinhaExcecao que é checked. Verifique se ainda está tratando essa exceção, dentro do catch, e apague essa parte. Vamos deixar do jeito antigo (sem MinhaExcecao):
+
+```java
+//na classe FluxoComError
+try {
+    metodo1();
+} catch(ArithmeticException | NullPointerException ex) {
+    String msg = ex.getMessage();
+    System.out.println("Exception " + msg);
+    ex.printStackTrace();
+}
+```
+
+## Criando a Exceção
+
+No projeto bytebank-herdado-conta, vamos refatorar o código da classe Conta e criar uma exceção.
+
+1) Primeiramente, crie a nossa exceção SaldoInsuficienteException:
+
+```java
+public class SaldoInsuficienteException extends Exception{ //checked
+
+    public SaldoInsuficienteException(String msg) {
         super(msg);
     }
 }
 ```
 
-3) Agora iremos lançar nossa exceção dentro do metodo2(), na classe Fluxo. Vamos substituir o throw atual pelo seguinte:
+2) Agora, abra a classe Conta. Procure o método saca() e troque o tipo do retorno de boolean para void. Remova os returns e lance a exceção nova. O método saca() terá a seguinte cara:
 
 ```java
-throw new MinhaExcecao("deu muito errado");
-```
+public void saca(double valor) throws SaldoInsuficienteException{
 
-4) Também precisamos adicionar o tipo MinhaExcecao dentro do catch na classe Fluxo:
+        if(this.saldo < valor) {
+            throw new SaldoInsuficienteException("Saldo: " + this.saldo + ", Valor: " + valor);
+        } 
 
-```java
-try {
-    metodo1();
-} catch(ArithmeticException | NullPointerException | MinhaExcecao ex) {
-    String msg = ex.getMessage();
-    System.out.println("Exception " + msg);
-    ex.printStackTrace();
-} 
-```
-
-5) Agora altera a classe MinhaExcecao para estender a classe Exception (deixando checked): 
-
-```java
-public class MinhaExcecao extends Exception { //checked
-
+        this.saldo -= valor;       
 }
 ```
 
-6) Na classe Fluxo, faça que o código volte a compilar e use throws MinhaExcecao no metodo1() e no metodo2():
+Repare que invertemos a lógica para podermos lançar a exceção antes.
+
+3) Veja que agora nosso método transfere() também precisa ser alterado, já que agora ele não terá mais um retorno do tipo boolean e que o método saca() não retorna void, além da exceção na assinatura do método.
+
+Altere o método para ficar como:
 
 ```java
-    private static void metodo1() throws MinhaExcecao {
-        System.out.println("Ini do metodo1");
-        metodo2();
-        System.out.println("Fim do metodo1");
-    }
-
-    private static void metodo2() throws MinhaExcecao{
-        System.out.println("Ini do metodo2");
-        throw new MinhaExcecao("deu muito errado");
-        //System.out.println("Fim do metodo2");        
-    }
+public void transfere(double valor, Conta destino) throws SaldoInsuficienteException{
+    this.saca(valor);
+    destino.deposita(valor);
+}
 ```
 
-## Testando o Erro
-
-No projeto java-pilha, se ainda não criou, crie uma nova classe FluxoComError com o seguinte conteúdo: 
+4) Por conta disso, precisaremos alterar nosso método saca() de nossa classe ContaCorrente:
 
 ```java
-public class FluxoComError {
+@Override
+public void saca(double valor) throws SaldoInsuficienteException {
+    double valorASacar = valor + 0.2;
+    super.saca(valorASacar);
+}
+```
+
+5) Agora, altere a classe TesteContas para funcionar com nossas exceções. Para tal, adicione um "throws" na assinatura do método main:
+
+```java
+public class TesteContas {
+
+    public static void main(String[] args) throws SaldoInsuficienteException{
+
+        ContaCorrente cc = new ContaCorrente(111, 111);
+        cc.deposita(100.0);
+
+        ContaPoupanca cp = new ContaPoupanca(222, 222);
+        cp.deposita(200.0);
+
+        cc.transfere(110.0, cp);
+
+        System.out.println("CC: " + cc.getSaldo());
+        System.out.println("CP: " + cp.getSaldo());
+    }
+}
+```
+
+Depois, tente transferir um valor inválido e execute o código:
+
+6) Por fim, crie uma classe TesteSaca para testar o método saca. Use um try-catch para capturar a exceção:
+
+```java
+public class TesteSaca {
 
     public static void main(String[] args) {
-        System.out.println("Ini do main");
-        try{
-            metodo1();
-        } catch(ArithmeticException | NullPointerException ex) {
-            String msg = ex.getMessage();
-            System.out.println("Exception " + msg);
+        Conta conta = new ContaCorrente(123, 321);
+
+        conta.deposita(200.0);
+
+        try {
+            conta.saca(210.0);
+        } catch(SaldoInsuficienteException ex) {
+            System.out.println("Exception: " + ex.getMessage());
             ex.printStackTrace();
-        } 
-        System.out.println("Fim do main");
-    }
+        }
 
-    private static void metodo1() {
-        System.out.println("Ini do metodo1");
-        metodo2();
-        System.out.println("Fim do metodo1");
-    }
-
-    private static void metodo2() {
-        System.out.println("Ini do metodo 2");
-        metodo2();    
-        System.out.println("Fim do metodo 2");
+        System.out.println(conta.getSaldo());
     }
 }
 ```
 
-Repare que método2() chama a si mesmo. Isso também é chamado de recursão.
+Execute a classe TesteSaca!
 
-2) Ao executar a classe FluxoComError recebemos um Error. Você se lembra por quê?
+
+## Nomenclatura
+
+No vídeo, usamos uma exceção com o nome SaldoInsuficienteException. Discutir nomes pode ser algo subjetivo e exige conhecimentos sobre o assunto. Ou seja, é pauta de longas discussões, mas acreditamos que um nome um pouco mais genérico para nossa exceção também seria uma solução adequada.
+
+Por exemplo, a exceção poderia se chamar SacaException ou ContaException. Repare que usamos o nome do método ou da classe. Para detalhar mais o problema (valor do saldo, etc) podemos utilizar a mensagem da exceção, como já fizemos no curso:
+
+```java
+throw new SacaException("Valor invalido: Saldo: " + this.saldo + ", Valor: " + valor);
+```
+
+Dessa forma, caso tenha outro problema, basta alterar a mensagem.
+
+De qualquer forma, saiba que encontrar o nome perfeito para as suas classes e métodos não é uma tarefa fácil e pode tomar o seu tempo. Em alguns casos, já encontramos nomes nas classes que deixaram claro que isso é apenas algo provisório e que deve ser alterado quando houver um consenso no nome.
 
 
 # O que aprendemos?
 
-* Existe uma hierarquia grande de classes que representam exceções. Por exemplo, ArithmeticException é filha de RuntimeException, que herda de Exception, que por sua vez é filha da classe mais ancestral das exceções, Throwable. Conhecer bem essa hierarquia significa saber utilizar exceções em sua aplicação.
+* como criar um bloco catch genérico usando a classe Exception;
 
-* Throwable é a classe que precisa ser extendida para que seja possível jogar um objeto na pilha (através da palavra reservada throw)
+* como criar uma exceção nova SaldoInsuficienteException;
 
-* É na classe Throwable que temos praticamente todo o código relacionado às exceções, inclusive getMessage() e printStackTrace(). Todo o resto da hierarquia apenas possui algumas sobrecargas de construtores para comunicar mensagens específicas
+* como transformar a exceção em checked ou unchecked.
 
-* A hierarquia iniciada com a classe Throwable é dividida em exceções e erros. Exceções são usadas em códigos de aplicação. Erros são usados exclusivamente pela máquina virtual.
-
-* Classes que herdam de Error são usadas para comunicar erros na máquina virtual. Desenvolvedores de aplicação não devem criar erros que herdam de Error.
-
-* StackOverflowError é um erro da máquina virtual para informar que a pilha de execução não tem mais memória.
-
-* Exceções são separadas em duas grandes categorias: aquelas que são obrigatoriamente verificadas pelo compilador e as que não são verificadas.
-
-* As primeiras são denominadas checked e são criadas através do pertencimento a uma hierarquia que não passe por RuntimeException.
-
-* As segundas são as unchecked, e são criadas como descendentes de RuntimeException.
-
-[Próxima Aula](https://github.com/pvreboucas/java-excecoes/tree/aula-5)
+[Próxima Aula](https://github.com/pvreboucas/java-excecoes/tree/aula-6)
