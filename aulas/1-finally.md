@@ -148,4 +148,4 @@ A questão é que não tem como fugir do finally, se ele estiver no código, sem
 
 Muito bem! Agora, repare que a abertura e o fechamento de conexão se tornou um código difícil de ler. Não temos muita lógica aqui. Por isso, é interessante simplificar esse código, considerando que existe mais um problema, que veremos a seguir.
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-6/aulas/2-try-with-resources.md)*
