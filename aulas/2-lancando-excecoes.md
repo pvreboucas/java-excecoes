@@ -131,4 +131,4 @@ private static void metodo2() {
 Essa é a forma mais comum que encontraremos no dia a dia. A seguir, voltaremos ao método saca() para resolver o seu problema, no qual não faz sentido usar ArithmeticException ou NullPointerException.
 
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-4/aulas/1-hierarquia-de-excecoes.md)*
