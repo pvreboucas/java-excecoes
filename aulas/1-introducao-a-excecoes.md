@@ -1,3 +1,6 @@
+*[<< AULA ANTERIOR](https://github.com/pvreboucas/java-excecoes/blob/aula-1/aulas/3-depuracao.md)*
+
+
 Começaremos, de fato, o estudo sobre as exceções, um dos tópicos mais difíceis. Anteriormente, vimos a pilha de execução, e aprendemos que o método no topo dela, é o que está sendo executado.
 
 ## Exceções: O que são e para que servem?
