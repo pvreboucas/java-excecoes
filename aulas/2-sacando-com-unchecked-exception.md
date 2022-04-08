@@ -155,4 +155,4 @@ Essa exceção começou no método saca() da Conta. Depois, passou pelo método 
 Agora, nos resta fazer o tratamento usando try-catch e usar uma exceção do tipo checked, pois do jeito que está agora, o compilador não nos obriga a fazer um tratamento.
 
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-5/aulas/3-sacando-com-checked-exception.md)*
