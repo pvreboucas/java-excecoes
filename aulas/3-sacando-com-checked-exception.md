@@ -8,7 +8,7 @@ Testaremos também a mesma exceção como Checked. Ela estenderá diretamente da
 Repare que, do jeito que a exceção está agora, o compilador não reclama por não ter um tratamento, visto que ela é unchecked, mas não tem problema se criarmos um try-catch:
 
 
-´´´java
+```java
 public static void main(String[] args) {
     Conta conta = new ContaCorrente(123, 321);
 
@@ -20,83 +20,81 @@ public static void main(String[] args) {
     }
     System.out.println(conta.getSaldo());
 }
-´´´
+```
 
 Sem o tratamento, a saída no console era assim:
 
-´´´java
+```java
 Exception in thread "main" SaldoInsuficienteException
         at Conta.saca(Conta.java:25)
         at ContaCorrente.saca(ContaCorrente.java:17)
         at TesteSaca.main(TesteSaca.java:8)
-´´´
+```
 
 E com o tratamento, temos a seguinte saída:
 
 
-´´´java
+```java
 Ex: Saldo: 200.0, Valor: 210.2
 200.0
-´´´
+```
 
 Já que deu erro, no final foi impresso o valor do saldo de 200.0. Agora, vamos mudar a classe para o tipo checked.
 
-
-´´´java
+```java
 public class SaldoInsuficienteException extends Exception {
 
-}
-´´´
+```
 
 Depois que salvarmos essa alteração, aparecerá um problema no método saca(), da classe Conta, na qual alguém joga SaldoInsuficienteException. Levando isso em consideração, precisamos deixar claro na assinatura do método.
 
 
-´´´java
+```java
 public void saca(double valor) throws SaldoInsuficienteException {
     if(this.saldo < valor) {
         throw new SaldoInsuficienteException("Saldo: " + this.saldo + ", Valor: " + this.valor);
     }
     this.saldo -= valor;
 }
-´´´
+```
 
 Ao salvar, o compilador passa a reclamar no método logo abaixo transfere():
 
-´´´java
+```java
 public void transfere(double valor, Conta destino) {
     this.saca(valor);
     destino.deposita(valor);
 }
-´´´
+```
 
 O transfere() chama o saca(), ou seja, se saca() é perigoso, transfere() precisa tomar uma atitude. Escolhemos a opção que deixa claro na assinatura do método que a exceção pode acontecer. 
 
-´´´java
+```java
 public void transfere(double valor, Conta destino) throws SaldoInsuficienteException {
     this.saca(valor);
     destino.deposita(valor);
 }
-´´´
+```
 
 Certo. Agora, podemos ver que o erro está na classe ContaCorrente. O método saca() dessa classe chama o super.saca() que no caso, possui o throws na assinatura do método dizendo que ele é perigoso. Por causa disso, temos que tomar uma atitude: fazer um try-catch ou deixar o throws explícito na assinatura.
 
 Dentro da nossa ContaCorrente, não faremos o try-catch então, ficará assim:
 
 
-´´´java
+```java
 @Override
 public void saca(double valor) throws SaldoInsuficienteException{
     double valorASacar = valor + 0.2;
     super.saca(valorASacar);
 }
-´´´
+```
 
 Veja que uma exceção checked dá trabalho, pois o compilador fica verificando todas as classes que chamam o método perigoso. A classe TesteContas também está com problemas. Mas, como não estávamos utilizando essa classe, adicionaremos throws na assinatura do método main(). 
 
 
-´´´java
+```java
 public static void main(String[] args) throws SaldoInsuficienteException {}
-´´´
+```
 
 Na hora de executar, nada vai mudar. Na execução, o unchecked é igual ao checked.
 
@@ -105,4 +103,4 @@ Então, se você ainda está com dúvida ou inseguro com esse tópico, não se d
 Ainda falta explicar mais uma ideia em nosso tratamento. Mas para isso, usaremos um outro exemplo, a seguir.
 
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-6/aulas/1-finally.md)*
