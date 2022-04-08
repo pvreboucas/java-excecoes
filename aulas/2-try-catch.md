@@ -100,4 +100,4 @@ Capturamos a exceção (a bomba) da pilha, e imprimimos "ArithmeticException" e,
 A mesma situação pode ser aplicada em main! Veremos adiante! ;)
 
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-2/aulas/3-variacao-do-catch.md)*
