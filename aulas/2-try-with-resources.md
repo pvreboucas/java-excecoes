@@ -223,4 +223,4 @@ O close() não foi chamado porque o objeto nem conseguiu ser construído. Esse �
 Agora é a hora de colocar os aprendizados em prática, fazendo os exercícios a seguir!
 
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-6/aulas/3-conclusao.md)*
