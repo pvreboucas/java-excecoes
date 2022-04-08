@@ -162,4 +162,4 @@ Fim do main
 Agora, já sabemos como criar exceções. Em nosso projeto do Banco, daremos um nome melhor para deixar claro o que pode acontecer. Mas, antes de voltar realmente para resolver o problema da Conta, temos que aprender mais um pouco sobre a hierarquia e a diferença entre as classes RuntimeException e Exception.
 
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-4/aulas/2-entendendo-erros.md)*
