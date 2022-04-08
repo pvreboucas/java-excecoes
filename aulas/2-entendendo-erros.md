@@ -30,4 +30,4 @@ Aprendemos que existe uma hierarquia de classes utilizada internamente pela máq
 
 Veremos as respostas, a seguir!
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-4/aulas/3-checked-e-unchecked.md)*
