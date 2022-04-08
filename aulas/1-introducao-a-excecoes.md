@@ -141,17 +141,31 @@ Repare no que aparece abaixo de ArithmeticException. Existe algo familiar?
 
 Exatamente! A pilha de execução. Em cima do main, temos o metodo1 e, acima dele, temos o metodo2.
 
-![01]()
+![01](https://github.com/pvreboucas/java-excecoes/blob/aula-2/aulas/imagens/02.01_001_console-comparacao-execucao.png)
 
 Para acessibilidade:
 
-# tabela
+| Console (Execução Normal) | Console (Execução com Exceção) |
+| :----:        |    :----:   |
+| Header      | Title       |
+| Paragraph   | Text        |
+| Header      | Title       |
+| Paragraph   | Text        |
+| Header      | Title       |
+| Paragraph   | Text        |
+| Header      | Title       |
+| Paragraph   | Text        |
+| Header      | Title       |
+| Paragraph   | Text        |
+| Paragraph   | Text        |
+
+
 
 Perceba que o Console de Execução com Exceção é semelhante ao Normal, até 1. Além da exibição do nome (ArithmeticException) e da mensagem (/ by zero), após 1, a execução muda — por causa da exceção — e é exibida a pilha de execução.
 
 Assim, percebemos que as exceções mudam o fluxo, pois elas fazem parte do controle dele. Mas, por que o fluxo mudou? A partir do momento em que o metodo2() entrou no laço, apareceu a exceção "Não foi possível realizar a divisão por zero". Podemos imaginar que o Java jogou uma "bomba" em cima da pilha, ou seja, no método que está no topo dela.
 
-![02]()
+![02](https://github.com/pvreboucas/java-excecoes/blob/aula-2/aulas/imagens/02.01_002_diagrama-bomba-excecao.png)
 
 ```
 
