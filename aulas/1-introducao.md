@@ -10,3 +10,5 @@ Olá! Esse curso possui foco em exceções, um assunto complexo, que engloba mui
 É um prato cheio para qualquer desenvolvedor Java! Juntos, entenderemos esse complexo tópico, de forma que você se sinta seguro diante às situações que enfrentaremos.
 
 Nos vemos no próximo vídeo!
+
+*[PRÓXIMA AULA](https://github.com/pvreboucas/java-excecoes/blob/aula-1/aulas/2-pilha-de-execucao.md)*
