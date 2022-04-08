@@ -1,3 +1,5 @@
+*[<< AULA ANTERIOR](https://github.com/pvreboucas/java-excecoes/blob/aula-1/aulas/1-introducao.md)*
+
 Anteriormente, estudamos sobre a pilha de execução, que é criada automaticamente. Em Java, a pilha padrão sempre começará com o método main() e pode crescer ou diminuir, dependendo de quais métodos serão chamados. A seguir, exploraremos como ela funciona, dentro do Eclipse.
 
 Clicaremos duas vezes antes do número da linha que imprime "Ini do main":
@@ -79,3 +81,4 @@ O principal objetivo foi mostrar a pilha ao vivo. Mas, aproveitamos para aprende
 
 Adiante, analisaremos as exceções em cima desse simples código que estamos trabalhando.
 
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-2/aulas/1-introducao-a-excecoes.md)*
