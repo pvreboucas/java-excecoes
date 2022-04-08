@@ -69,4 +69,4 @@ O conceito de exceções existe em várias linguagens, mas o que acabamos de est
 
 Entendemos que todas as categorias são exceções, são como bombas que caem na pilha e mudam o fluxo na hora da execução, mas a diferença entre eles é na hora de compilar. O Checked e o Unchecked estão relacionados ao processo de compilação.
 
-*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/tree/aula-5/aulas)*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-5/aulas/1-capturando-qualquer-excecao.md)*
