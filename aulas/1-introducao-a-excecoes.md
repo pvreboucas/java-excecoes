@@ -189,4 +189,4 @@ Resumindo: sabemos que existem exceções e que elas mudam o fluxo. Se soluçõe
 
 Adiante, veremos como lidar com essa "bomba", fazendo um tratamento das exceções.
 
-
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-2/aulas/2-try-catch.md)*
