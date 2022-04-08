@@ -1,3 +1,5 @@
+*[<< AULA ANTERIOR](https://github.com/pvreboucas/java-excecoes/blob/aula-1/aulas/1-introducao.md)*
+
 Continuemos a nossa viagem pela plataforma e linguagem Java. Temos a versão 9 instalada, mas caso você tenha instalado uma das anteriores (6, 7 ou 8) em sua máquina, não se preocupe, pois o que veremos não é específico em relação às versões.
 
 Também temos o Eclipse na versão Oxygen.2 instalado. Mas, caso você tenha uma versão mais antiga, não há problema. Usaremos o mesmo workspace do curso anterior, o eclipse-workspace.
@@ -98,3 +100,5 @@ Voltando a main(), é exibida a linha que imprime "Fim do main". Com isso, ele �
 Quando acabam os métodos da pilha, o Java entende que o processo foi encerrado.
 
 Recapitulando: A pilha existe para saber qual método está sendo executado — o que está no topo — e lembrar quais ainda precisam ser executados. Entendido como ela funciona, podemos falar sobre os problemas de execução, as exceções.
+
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-1/aulas/3-depuracao.md)*
