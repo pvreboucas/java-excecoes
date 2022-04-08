@@ -147,17 +147,17 @@ Para acessibilidade:
 
 | Console (Execução Normal) | Console (Execução com Exceção) |
 | :----:        |    :----:   |
-| Header      | Title       |
-| Paragraph   | Text        |
-| Header      | Title       |
-| Paragraph   | Text        |
-| Header      | Title       |
-| Paragraph   | Text        |
-| Header      | Title       |
-| Paragraph   | Text        |
-| Header      | Title       |
-| Paragraph   | Text        |
-| Paragraph   | Text        |
+| Ini do main      | Ini do main       |
+| Ini do metodo1   | Ini do metodo1        |
+| Ini do metodo2     | Ini do metodo2      |
+| 1   | 1        |
+| 2      | 	Exception in thread "main"       |
+| 3   | 	java.lang.ArithmeticException: / by zero       |
+| 4      | at Fluxo.metodo2(Fluxo.java:19)      |
+| 5   | at Fluxo.metodo2(Fluxo.java:11)        |
+| Fim do metodo2      |  at Fluxo.main(Fluxo.java:5)     |
+| Fim do metodo1   |         |
+| Fim do main   |         |
 
 
 
