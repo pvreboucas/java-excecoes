@@ -182,4 +182,4 @@ public static void main(String[] args) {
 O código acima é válido para as duas situações que trabalhamos. Adiante, falaremos mais sobre a classe Exception.
 
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-3/aulas/1-revisao.md)*
