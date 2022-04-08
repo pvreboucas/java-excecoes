@@ -22,4 +22,4 @@ A referência ex declarada no bloco catch, é um objeto onde podemos chamar mét
 
 Assim, concluímos que as exceções envolvem conhecimento sobre orientação a objeto, sobre pilha e têm uma sintaxe especial por meio de try-catch. Adiante, criaremos as nossas próprias exceções.
 
-*[PRÓXIMA AULA >>]()*
+*[PRÓXIMA AULA >>](https://github.com/pvreboucas/java-excecoes/blob/aula-3/aulas/2-lancando-excecoes.md)*
